@@ -1,6 +1,6 @@
 <template>
 <Form>
-  <FormPersonalDetails/>
+  <FormGeneralInfo/>
   
   
 </Form>
@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { Form } from "vee-validate";
+import FormGeneralInfo from "~/components/FormGeneralInfo.vue";
 
 </script>
 

@@ -51,6 +51,18 @@ const telephone = ref<string>("+46");
 const firstName = ref<string>("");
 const lastName = ref<string>("");
 const email = ref<string>("");
+
+
+/*  
++ firstName: String
++ lastName: String
++ levelOfCompetence: String
++ jobTitle: String
++ workingSince: Date
++ imagePath?: String
++ shortDescriptionPerson: String Richtext
+*/
+
 </script>
 
 <style scoped></style>
