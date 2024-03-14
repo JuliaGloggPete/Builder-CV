@@ -16,11 +16,13 @@ const roleAtWork = ref<string>("");
 const workperiodStartDate = ref<string>("");
 const workperiodEndDate = ref<string>("");
 const employmentType = ref<string>("");
+const technicsUsed = ref<string[]>([]);
+const technic = ref<string>("");
 const workDescription = ref<string>("");
 const skills = ref<string[]>([]);
 const extraSkill = ref<string>("");
+const extraSkills = ref<string[]>([]);
 const category = ref("UNDEFINED");
-
 const possibleLanguages = ref<string[]>([
   "Assembly Language",
   "C",
@@ -90,8 +92,14 @@ const possibleMethodologies = ref<string[]>([
 ]);
 
 const addSkill = () => {
-  if (extraSkill.value.trim) {
-    const trimmedSkill = extraSkill.value.trim();
+  if (extraSkill.value.trim()) {
+    //TODO check om det finns redan
+    //TODO add category accordingly om vi vill det
+
+    let trimmedSkill = extraSkill.value.trim();
+    if (trimmedSkill.includes(",")) {
+      trimmedSkill = trimmedSkill.replace(",", ""); // Remove comma
+    }
 
     skills.value.push(trimmedSkill);
     extraSkill.value = "";
@@ -102,51 +110,8 @@ const addSkill = () => {
 <template>
   <div class="form-section">
     <div>
-      <p class="text-3xl font-semibold uppercase my-3">Uppdrag hos Consid</p>
+      <p class="text-3xl font-semibold uppercase my-3">Skills</p>
     </div>
-
-    <div class="md:grid md:grid-cols-2 md:gap-4">
-      <div>
-        <label>Anställningsomfattning</label>
-        <Field
-          name="employmentType"
-          class="form-input"
-          type="text"
-          placeholder="Anställnings omfattning"
-          v-model="employmentType"
-        />
-      </div>
-      <div>
-        <label>Samanfattande arbetsupptrag</label>
-        <Field
-          name="workDescription"
-          class="form-input"
-          placeholder="t.ex. Lunds Universitet"
-          type="text"
-          v-model="workDescription"
-        />
-      </div>
-      <div>
-        <label>Arbetsperiodens start</label>
-        <Field
-          name="workperiodStartDate"
-          class="form-input"
-          type="date"
-          v-model="workperiodStartDate"
-        />
-      </div>
-
-      <div>
-        <label>Arbeitsperiodens slut</label>
-        <Field
-          name="workperiodEndDate"
-          class="form-input"
-          type="date"
-          v-model="workperiodEndDate"
-        />
-      </div>
-    </div>
-    <br />
 
     <p class="font-semibold mr-3">Programmerings språk:</p>
     <div class="flex flex-wrap mt-2">
@@ -165,6 +130,16 @@ const addSkill = () => {
         <label class="mr-4"> {{ possibleLanguage }}</label>
       </div>
     </div>
+    <div class="flex">
+      <label class="w-2/6 self-center">Ytterliggare Språk</label>
+      <Field
+        name="extraSkill"
+        class="form-input"
+        type="text"
+        @keyup.enter="addSkill"
+        v-model="extraSkill"
+      />
+    </div>
     <p class="font-semibold mr-3 mt-4">Verktyg:</p>
     <div class="flex flex-wrap mt-2">
       <div
@@ -181,6 +156,17 @@ const addSkill = () => {
         />
         <label class="mr-4"> {{ possibleTool }}</label>
       </div>
+    </div>
+    <div class="flex">
+      <label class="w-2/6 self-center"> Ytterliggare Verktyg</label>
+      <Field
+        name="extraSkill"
+        class="form-input"
+        type="text"
+        @keyup.enter="addSkill"
+        @keyup.,="addSkill"
+        v-model="extraSkill"
+      />
     </div>
 
     <p class="font-semibold mr-3 mt-4">Ramverk:</p>
@@ -202,16 +188,6 @@ const addSkill = () => {
     </div>
 
     <div class="md:grid md:grid-cols-2 md:gap-4">
-      <div>
-        <label class="">Ytterliggare Skills</label>
-        <Field
-          name="extraSkill"
-          class="form-input"
-          type="text"
-          @keyup.enter="addSkill"
-          v-model="extraSkill"
-        />
-      </div>
       <div>
         <label>kategorie</label>
         <Field
@@ -240,6 +216,7 @@ const addSkill = () => {
       <p class="font-semibold">Angivna skills:</p>
 
       <p>{{ skills.join(", ") }}</p>
+      <p>{{ extraSkills.join(", ") }}</p>
     </div>
   </div>
 </template>
