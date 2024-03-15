@@ -13,6 +13,7 @@ import { Field } from "vee-validate";
 */
 
 const roleAtWork = ref<string>("");
+
 const workperiodStartDate = ref<string>("");
 const workperiodEndDate = ref<string>("");
 const employmentType = ref<string>("");
@@ -102,7 +103,7 @@ const addSkill = () => {
 <template>
   <div class="form-section">
     <div>
-      <p class="text-3xl font-semibold uppercase my-3">Uppdrag hos Consid</p>
+      <p class="form-head-of-section">Uppdrag hos Consid</p>
     </div>
 
     <div class="md:grid md:grid-cols-2 md:gap-4">
@@ -117,15 +118,16 @@ const addSkill = () => {
         />
       </div>
       <div>
-        <label>Samanfattande arbetsupptrag</label>
+        <label>Roll hos uppdragsgivaren</label>
         <Field
-          name="workDescription"
+          name="roleAtWork"
           class="form-input"
-          placeholder="t.ex. Lunds Universitet"
           type="text"
-          v-model="workDescription"
+          placeholder="t.ex. FrontendDevelopper"
+          v-model="roleAtWork"
         />
       </div>
+
       <div>
         <label>Arbetsperiodens start</label>
         <Field
@@ -146,6 +148,20 @@ const addSkill = () => {
         />
       </div>
     </div>
+    <div>
+        <label>Samanfattande arbetsupptrag</label>
+        <Field
+          as="textarea"
+          name="workDescription"
+          class="form-input"
+          maxlength="1300"
+          type="text"
+          cols="30"
+          rows="10"
+          v-model="workDescription"
+        />
+      </div>
+
     <br />
 
     <p class="font-semibold mr-3">Programmerings språk:</p>

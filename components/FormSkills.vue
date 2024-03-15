@@ -1,108 +1,144 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { Field } from "vee-validate";
+import type { ISkill } from "~/types";
 
-/* 
-+ workperiodStartDate: Date (Month + year)
-+ workperiodEndDate: Date (Month + year)
-+ roleAtWork: String
-+ employmentType: String
-+ technics: List <String>
-+ workDescription: String
-+ workReference: String
-*/
+const skill: ISkill = { skill: "", skillCategory: "", proficiency: 3 };
 
-const roleAtWork = ref<string>("");
-const workperiodStartDate = ref<string>("");
-const workperiodEndDate = ref<string>("");
-const employmentType = ref<string>("");
-const technicsUsed = ref<string[]>([]);
-const technic = ref<string>("");
-const workDescription = ref<string>("");
-const skills = ref<string[]>([]);
-const extraSkill = ref<string>("");
-const extraSkills = ref<string[]>([]);
-const category = ref("UNDEFINED");
-const possibleLanguages = ref<string[]>([
-  "Assembly Language",
-  "C",
-  "CSS",
-  "C#",
-  "C++",
-  "Dart",
-  "Fortran",
-  "Go",
-  "Groovy",
-  "Java",
-  "JavaScript",
-  "Kotlin",
-  "Lisp",
-  "Lua",
-  "MATLAB",
-  "Perl",
-  "PHP",
-  "Python",
-  "R",
-  "Ruby",
-  "Rust",
-  "Scala",
-  "Scheme",
-  "Shell Scripting",
-]);
+const skills = ref<ISkill[]>([]);
 
-const possibleFrames = ref<string[]>([
-  "Angular",
-  "ASP.NET",
-  "ASP.NET Core",
-  "Backbone.js",
-  "Django",
-  "Express.js",
-  "Flask",
-  "Laravel",
-  "Node.js",
-  "React",
-  "Ruby on Rails",
-  "Spring Framework",
-  "Symfony",
-  "Vue.js",
-]);
-const possibleTools = ref<string[]>([
-  "Android Studio",
-  "Blender",
-  "Eclipse",
-  "Git",
-  "GitHub",
-  "IntelliJ IDEA",
-  "JIRA",
-  "Maven",
-  "NetBeans",
-  "Subversion",
-  "Visual Studio",
-  "Visual Studio Code",
-]);
-const possibleMethodologies = ref<string[]>([
-  "Agile",
-  "Continuous Integration (CI)",
-  "Domain-Driven Design (DDD)",
-  "Extreme Programming (XP)",
-  "Rational Unified Process (RUP)",
-  "Scrum",
-  "Test-Driven Development (TDD)",
-  "Unified Modeling Language (UML)",
-]);
+const extraLanguage = ref<string>("");
+const extraFrame = ref<string>("");
+const extraMethodology = ref<string>("");
+const extraTool = ref<string>("");
 
-const addSkill = () => {
-  if (extraSkill.value.trim()) {
-    //TODO check om det finns redan
-    //TODO add category accordingly om vi vill det
+const possibleLanguages = ref<ISkill[]>(
+  [
+    "Assembly Language",
+    "C",
+    "CSS",
+    "C#",
+    "C++",
+    "Dart",
+    "Fortran",
+    "Go",
+    "Groovy",
+    "Java",
+    "JavaScript",
+    "Kotlin",
+    "Lisp",
+    "Lua",
+    "MATLAB",
+    "Perl",
+    "PHP",
+    "Python",
+    "R",
+    "Ruby",
+    "Rust",
+    "Scala",
+    "Scheme",
+    "Shell Scripting",
+  ].map((language) => ({ skill: language, skillCategory: "language", proficiency:3 }))
+);
 
-    let trimmedSkill = extraSkill.value.trim();
-    if (trimmedSkill.includes(",")) {
-      trimmedSkill = trimmedSkill.replace(",", ""); // Remove comma
+const possibleFrames = ref<ISkill[]>(
+  [
+    "Angular",
+    "ASP.NET",
+    "ASP.NET Core",
+    "Backbone.js",
+    "Django",
+    "Express.js",
+    "Flask",
+    "Laravel",
+    "Node.js",
+    "React",
+    "Ruby on Rails",
+    "Spring Framework",
+    "Symfony",
+    "Vue.js",
+  ].map((frame) => ({ skill: frame, skillCategory: "frame", proficiency:3 }))
+);
+
+const possibleTools = ref<ISkill[]>(
+  [
+    "Android Studio",
+    "Blender",
+    "Eclipse",
+    "Git",
+    "GitHub",
+    "IntelliJ IDEA",
+    "JIRA",
+    "Maven",
+    "NetBeans",
+    "Subversion",
+    "Visual Studio",
+    "Visual Studio Code",
+  ].map((tool) => ({ skill: tool, skillCategory: "tool", proficiency:3 }))
+);
+
+const possibleMethodologies = ref<ISkill[]>(
+  [
+    "Agile",
+    "Continuous Integration (CI)",
+    "Domain-Driven Design (DDD)",
+    "Extreme Programming (XP)",
+    "Rational Unified Process (RUP)",
+    "Scrum",
+    "Test-Driven Development (TDD)",
+    "Unified Modeling Language (UML)",
+  ].map((method) => ({ skill: method, skillCategory: "mehtod",  proficiency:3 }))
+);
+
+const addSkillFromCB = (skill: string, skillCategory: string) => {
+  if (!skills.value.some((existingSkill) => existingSkill.skill === skill)) {
+    skills.value.push({ skill, skillCategory, proficiency:3 });
+  }
+};
+
+
+
+const addSkill = (type: string) => {
+  let extraSkillValue = "";
+  let skillCategory = "";
+
+  //TODO loopar igenom först om skillen redan finns
+
+  switch (type) {
+    case "language":
+      extraSkillValue = extraLanguage.value.trim();
+      skillCategory = "language";
+      break;
+    case "frame":
+      extraSkillValue = extraFrame.value.trim();
+      skillCategory = "framework";
+      break;
+    case "tool":
+      extraSkillValue = extraTool.value.trim();
+      skillCategory = "tool";
+      break;
+    case "method":
+      extraSkillValue = extraMethodology.value.trim();
+      skillCategory = "methodology";
+      break;
+  }
+
+  if (extraSkillValue) {
+    skills.value.push({ skill: extraSkillValue, skillCategory,  proficiency:3 });
+    switch (type) {
+      case "language":
+        extraLanguage.value = "";
+        break;
+      case "frame":
+        extraFrame.value = "";
+        break;
+      case "tool":
+        extraTool.value = "";
+        break;
+      case "method":
+        extraMethodology.value = "";
+        break;
     }
-
-    skills.value.push(trimmedSkill);
-    extraSkill.value = "";
   }
 };
 </script>
@@ -110,62 +146,67 @@ const addSkill = () => {
 <template>
   <div class="form-section">
     <div>
-      <p class="text-3xl font-semibold uppercase my-3">Skills</p>
+      <p class="form-head-of-section">Skills</p>
     </div>
 
     <p class="font-semibold mr-3">Programmerings språk:</p>
     <div class="flex flex-wrap mt-2">
       <div
         v-for="possibleLanguage in possibleLanguages"
-        :key="possibleLanguage"
+        :key="possibleLanguage.skill"
         class="flex"
       >
         <Field
           name="skill"
-          :value="possibleLanguage"
+          :value="possibleLanguage.skill"
           type="checkbox"
           class="mr-2"
-          v-model="skills"
+     
+          @change="addSkillFromCB(possibleLanguage.skill, 'language')"
         />
-        <label class="mr-4"> {{ possibleLanguage }}</label>
+        <label class="mr-4"> {{ possibleLanguage.skill }}</label>
       </div>
     </div>
     <div class="flex">
       <label class="w-2/6 self-center">Ytterliggare Språk</label>
       <Field
-        name="extraSkill"
+        name="extraLanguage"
         class="form-input"
         type="text"
-        @keyup.enter="addSkill"
-        v-model="extraSkill"
+        @keyup.enter="addSkill('language')"
+        @keyup.,="addSkill('language')"
+        v-model="extraLanguage"
       />
     </div>
+
     <p class="font-semibold mr-3 mt-4">Verktyg:</p>
     <div class="flex flex-wrap mt-2">
       <div
         v-for="possibleTool in possibleTools"
-        :key="possibleTool"
+        :key="possibleTool.skill"
         class="flex"
       >
         <Field
           name="skill"
-          :value="possibleTool"
+          :value="possibleTool.skill"
           type="checkbox"
           class="mr-2"
           v-model="skills"
+          @change="addSkillFromCB(possibleTool.skill, 'tool')"
+        
         />
-        <label class="mr-4"> {{ possibleTool }}</label>
+        <label class="mr-4"> {{ possibleTool.skill }}</label>
       </div>
     </div>
     <div class="flex">
       <label class="w-2/6 self-center"> Ytterliggare Verktyg</label>
       <Field
-        name="extraSkill"
+        name="extraTool"
         class="form-input"
         type="text"
-        @keyup.enter="addSkill"
-        @keyup.,="addSkill"
-        v-model="extraSkill"
+        @keyup.enter="addSkill('tool')"
+        @keyup.,="addSkill('tool')"
+        v-model="extraTool"
       />
     </div>
 
@@ -173,50 +214,69 @@ const addSkill = () => {
     <div class="flex flex-wrap my-2">
       <div
         v-for="possibleFrame in possibleFrames"
-        :key="possibleFrame"
+        :key="possibleFrame.skill"
         class="flex"
       >
         <Field
           name="skill"
-          :value="possibleFrame"
+          :value="possibleFrame.skill"
           type="checkbox"
           class="mr-2"
           v-model="skills"
+          @change="addSkillFromCB(possibleFrame.skill, 'frame')"
         />
-        <label class="mr-4"> {{ possibleFrame }}</label>
+        <label class="mr-4"> {{ possibleFrame.skill }}</label>
       </div>
+    </div>
+    <div class="flex">
+      <label class="w-2/6 self-center"> Ytterliggare Ramverk</label>
+      <Field
+        name="extraFrame"
+        class="form-input"
+        type="text"
+        @keyup.enter="addSkill('frame')"
+        @keyup.,="addSkill('frame')"
+        v-model="extraFrame"
+        
+      />
     </div>
 
-    <div class="md:grid md:grid-cols-2 md:gap-4">
-      <div>
-        <label>kategorie</label>
+    <p class="font-semibold mr-3 mt-4">Methoder:</p>
+    <div class="flex flex-wrap my-2">
+      <div
+        v-for="possibleMethod in possibleMethodologies"
+        :key="possibleMethod.skill"
+        class="flex"
+      >
         <Field
-          as="select"
-          name="category"
-          class="form-input"
-          type="text"
-          v-model="category"
-        >
-          <option value="UNDEFINED">ej angiven</option>
-          <option value="PROGRAMMING_LANGUAGE">Programmerings språk</option>
-          <option value="FRAMEWORK">Ramverk</option>
-          <option value="TOOLS">Verktyg</option>
-          <option value="SOFTWARE_DEVELOPMENT_PRACTICES_METHODOLOGIES">
-            Development practices/methods
-          </option>
-          <option value="SERVER_DATABASE_TECHNOLOGIES">
-            Server & Databas technologier
-          </option>
-        </Field>
+          name="skill"
+          :value="possibleMethod.skill"
+          type="checkbox"
+          class="mr-2"
+          v-model="skills"
+          @change="addSkillFromCB(possibleMethod.skill, 'method')"
+        />
+        <label class="mr-4"> {{ possibleMethod.skill }}</label>
       </div>
     </div>
+    <div class="flex">
+      <label class="w-2/6 self-center"> Ytterliggare Methoder</label>
+      <Field
+        name="extraMethodologie"
+        class="form-input"
+        type="text"
+        @keyup.enter="addSkill('method')"
+        @keyup.,="addSkill('mehtod')"
+        v-model="extraMethodology"
+      />
+    </div>
+
     <div
       class="bg-considBlue text-white -mx-6 lg:-mx-9 -mb-3 px-6 lg:px-9 py-3"
     >
       <p class="font-semibold">Angivna skills:</p>
 
-      <p>{{ skills.join(", ") }}</p>
-      <p>{{ extraSkills.join(", ") }}</p>
+      <p>{{ skills.map((skill) => skill.skill).join(", ") }}</p>
     </div>
   </div>
 </template>

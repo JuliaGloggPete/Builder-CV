@@ -22,7 +22,8 @@
     <FormGeneralInfo />
     <FormSkills/>
     <FormWorkExperienceConsid/>
-    <FormEducationInfo/>
+    <FormOverAllResume/>
+
   </Form>
 </template>
 
@@ -43,5 +44,8 @@ const language = ref("SE");
 .form-section{
   @apply border-2 mb-4 border-considBlue bg-white text-considBlue max-w-6xl mx-auto px-6 lg:px-9 py-3 w-full flex flex-col mt-11;
 
+}
+.form-head-of-section{
+  @apply  text-3xl bg-considBlue text-white font-semibold uppercase -mx-6 lg:-mx-9 -mt-3 mb-3 px-6 lg:px-9 pt-6 pb-3
 }
 </style>

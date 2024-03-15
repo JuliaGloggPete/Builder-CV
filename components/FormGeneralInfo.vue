@@ -1,7 +1,7 @@
 <template>
-  <div class="form-section py-3">
+  <div class="form-section">
     <div>
-      <p class="text-3xl font-semibold uppercase my-3">Allmänt</p>
+      <p class="form-head-of-section">Allmänt</p>
     </div>
 
     <div class="md:grid md:grid-cols-2 md:gap-4">
@@ -133,16 +133,6 @@ function handleFileChange(e: Event) {
     imageUrl.value = undefined;
   }
 }
-
-/*  
-+ firstName: String
-+ lastName: String
-+ levelOfCompetence: String
-+ jobTitle: String
-+ workingSince: Date
-+ imagePath?: String
-+ shortDescriptionPerson: String Richtext
-*/
 </script>
 
 <style scoped></style>
