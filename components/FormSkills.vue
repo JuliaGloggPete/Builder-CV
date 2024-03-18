@@ -2,14 +2,21 @@
 import { ref } from "vue";
 import { Field } from "vee-validate";
 import type { ISkill } from "~/types";
+import { useSkillsStore } from "~/stores/skillsStore";
 
-const skill: ISkill = { skill: "", skillCategory: "", proficiency: undefined };
+const skillAdd: ISkill = {
+  skill: "",
+  skillCategory: "",
+  proficiency: undefined,
+};
 //const emit = defineEmits(["skillsUpdated"]);
 /*const props = defineProps({
  // skillset
 
 
 })*/
+
+const skillStore = useSkillsStore();
 
 const skills = ref<ISkill[]>([]);
 
@@ -44,7 +51,11 @@ const possibleLanguages = ref<ISkill[]>(
     "Scala",
     "Scheme",
     "Shell Scripting",
-  ].map((language) => ({ skill: language, skillCategory: "language", proficiency:3 }))
+  ].map((language) => ({
+    skill: language,
+    skillCategory: "language",
+    proficiency: 3,
+  }))
 );
 
 const possibleFrames = ref<ISkill[]>(
@@ -63,7 +74,11 @@ const possibleFrames = ref<ISkill[]>(
     "Spring Framework",
     "Symfony",
     "Vue.js",
-  ].map((frame) => ({ skill: frame, skillCategory: "frame", proficiency: undefined }))
+  ].map((frame) => ({
+    skill: frame,
+    skillCategory: "frame",
+    proficiency: undefined,
+  }))
 );
 
 const possibleTools = ref<ISkill[]>(
@@ -80,7 +95,11 @@ const possibleTools = ref<ISkill[]>(
     "Subversion",
     "Visual Studio",
     "Visual Studio Code",
-  ].map((tool) => ({ skill: tool, skillCategory: "tool", proficiency: undefined }))
+  ].map((tool) => ({
+    skill: tool,
+    skillCategory: "tool",
+    proficiency: undefined,
+  }))
 );
 
 const possibleMethodologies = ref<ISkill[]>(
@@ -93,58 +112,66 @@ const possibleMethodologies = ref<ISkill[]>(
     "Scrum",
     "Test-Driven Development (TDD)",
     "Unified Modeling Language (UML)",
-  ].map((method) => ({ skill: method, skillCategory: "mehtod",  proficiency: undefined }))
+  ].map((method) => ({
+    skill: method,
+    skillCategory: "mehtod",
+    proficiency: undefined,
+  }))
 );
 
 const addSkillFromCB = (skill: string, skillCategory: string) => {
+  const skillToAdd: ISkill = { skill, skillCategory, proficiency: undefined };
+
   if (!skills.value.some((existingSkill) => existingSkill.skill === skill)) {
-    skills.value.push({ skill, skillCategory, proficiency: undefined });
-    //emit("skillsUpdated", skills.value)
+    skillStore.addSkill(skillToAdd);
   }
 };
 
-
-
 const addSkill = (type: string) => {
-  let extraSkillValue = "";
+  let skill = "";
   let skillCategory = "";
 
   //TODO loopar igenom först om skillen redan finns
 
   switch (type) {
     case "language":
-      extraSkillValue = extraLanguage.value.trim();
+      skill = extraLanguage.value.trim();
       skillCategory = "language";
       break;
     case "frame":
-      extraSkillValue = extraFrame.value.trim();
+      skill = extraFrame.value.trim();
       skillCategory = "framework";
       break;
     case "tool":
-      extraSkillValue = extraTool.value.trim();
+      skill = extraTool.value.trim();
       skillCategory = "tool";
       break;
     case "method":
-      extraSkillValue = extraMethodology.value.trim();
+      skill = extraMethodology.value.trim();
       skillCategory = "methodology";
       break;
   }
 
-  if (extraSkillValue) {
-    skills.value.push({ skill: extraSkillValue, skillCategory,  proficiency:3 });
-    switch (type) {
-      case "language":
-        extraLanguage.value = "";
-        break;
-      case "frame":
-        extraFrame.value = "";
-        break;
-      case "tool":
-        extraTool.value = "";
-        break;
-      case "method":
-        extraMethodology.value = "";
-        break;
+  const skillToAdd: ISkill = { skill, skillCategory, proficiency: undefined };
+
+  if (skill) {
+    if (!skills.value.some((existingSkill) => existingSkill.skill === skill)) {
+      skillStore.addSkill(skillToAdd);
+
+      switch (type) {
+        case "language":
+          extraLanguage.value = "";
+          break;
+        case "frame":
+          extraFrame.value = "";
+          break;
+        case "tool":
+          extraTool.value = "";
+          break;
+        case "method":
+          extraMethodology.value = "";
+          break;
+      }
     }
   }
 };
@@ -168,7 +195,6 @@ const addSkill = (type: string) => {
           :value="possibleLanguage.skill"
           type="checkbox"
           class="mr-2"
-     
           @change="addSkillFromCB(possibleLanguage.skill, 'language')"
         />
         <label class="mr-4"> {{ possibleLanguage.skill }}</label>
@@ -200,7 +226,6 @@ const addSkill = (type: string) => {
           class="mr-2"
           v-model="skills"
           @change="addSkillFromCB(possibleTool.skill, 'tool')"
-        
         />
         <label class="mr-4"> {{ possibleTool.skill }}</label>
       </div>
@@ -244,7 +269,6 @@ const addSkill = (type: string) => {
         @keyup.enter="addSkill('frame')"
         @keyup.,="addSkill('frame')"
         v-model="extraFrame"
-        
       />
     </div>
 
@@ -283,7 +307,17 @@ const addSkill = (type: string) => {
     >
       <p class="font-semibold">Angivna skills:</p>
 
-      <p>{{ skills.map((skill: ISkill) => skill.skill).join(", ") }}</p>
+      <div class="flex flex-row">
+        <span
+          v-for="(skill, index) in skillStore.$state.skills"
+          :key="skill.skill"
+        >
+          {{ skill.skill
+          }}<span v-if="index !== skillStore.$state.skills.length - 1"
+            >,&nbsp;</span
+          >
+        </span>
+      </div>
     </div>
   </div>
 </template>
