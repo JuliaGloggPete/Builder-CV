@@ -62,7 +62,7 @@ const deleteCertificate = (item: string) => {
 <template>
   <div class="form-section">
     <div>
-      <p class="text-3xl bg-considBlue text-white font-semibold uppercase -mx-6 lg:-mx-9 -mt-3 px-6 lg:px-9 pt-6 pb-3">Samanfattat Kompetens</p>
+      <p class="form-head-of-section">Samanfattat Kompetens</p>
     </div>
     <div>
       <p class="text-2xl font-semibold uppercase my-3">Utbildningar</p>

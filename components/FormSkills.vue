@@ -3,7 +3,13 @@ import { ref } from "vue";
 import { Field } from "vee-validate";
 import type { ISkill } from "~/types";
 
-const skill: ISkill = { skill: "", skillCategory: "", proficiency: 3 };
+const skill: ISkill = { skill: "", skillCategory: "", proficiency: undefined };
+//const emit = defineEmits(["skillsUpdated"]);
+/*const props = defineProps({
+ // skillset
+
+
+})*/
 
 const skills = ref<ISkill[]>([]);
 
@@ -57,7 +63,7 @@ const possibleFrames = ref<ISkill[]>(
     "Spring Framework",
     "Symfony",
     "Vue.js",
-  ].map((frame) => ({ skill: frame, skillCategory: "frame", proficiency:3 }))
+  ].map((frame) => ({ skill: frame, skillCategory: "frame", proficiency: undefined }))
 );
 
 const possibleTools = ref<ISkill[]>(
@@ -74,7 +80,7 @@ const possibleTools = ref<ISkill[]>(
     "Subversion",
     "Visual Studio",
     "Visual Studio Code",
-  ].map((tool) => ({ skill: tool, skillCategory: "tool", proficiency:3 }))
+  ].map((tool) => ({ skill: tool, skillCategory: "tool", proficiency: undefined }))
 );
 
 const possibleMethodologies = ref<ISkill[]>(
@@ -87,12 +93,13 @@ const possibleMethodologies = ref<ISkill[]>(
     "Scrum",
     "Test-Driven Development (TDD)",
     "Unified Modeling Language (UML)",
-  ].map((method) => ({ skill: method, skillCategory: "mehtod",  proficiency:3 }))
+  ].map((method) => ({ skill: method, skillCategory: "mehtod",  proficiency: undefined }))
 );
 
 const addSkillFromCB = (skill: string, skillCategory: string) => {
   if (!skills.value.some((existingSkill) => existingSkill.skill === skill)) {
-    skills.value.push({ skill, skillCategory, proficiency:3 });
+    skills.value.push({ skill, skillCategory, proficiency: undefined });
+    //emit("skillsUpdated", skills.value)
   }
 };
 
@@ -276,7 +283,7 @@ const addSkill = (type: string) => {
     >
       <p class="font-semibold">Angivna skills:</p>
 
-      <p>{{ skills.map((skill) => skill.skill).join(", ") }}</p>
+      <p>{{ skills.map((skill: ISkill) => skill.skill).join(", ") }}</p>
     </div>
   </div>
 </template>

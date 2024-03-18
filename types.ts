@@ -19,7 +19,7 @@ export interface IGeneralInfo {
 export interface ISkill {
   skill: string;
   skillCategory?: string;
-  proficiency: Number;
+  proficiency: Number |undefined;
 }
 
 export interface IWorkExperience {

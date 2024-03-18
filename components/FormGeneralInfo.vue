@@ -87,9 +87,9 @@
       </div>
       <div class="flex justify-center items-center">
         <div
-          class="w-48 h-48 overflow-hidden object-cover border-solid border-2 items-center text-center border-gray-300 rounded-full"
+          class="w-48 h-48 flex overflow-hidden object-cover border-solid border-2 items-center text-center border-gray-300 rounded-full"
         >
-          <img :src="imageUrl" alt="Chosen Image" />
+          <img :src="imageUrl" alt="Chosen Image" class="font-semibold justify-center pl-4" />
         </div>
       </div>
     </div>

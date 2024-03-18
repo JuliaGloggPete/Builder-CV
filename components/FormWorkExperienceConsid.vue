@@ -2,99 +2,29 @@
 import { ref } from "vue";
 import { Field } from "vee-validate";
 
-/* 
-+ workperiodStartDate: Date (Month + year)
-+ workperiodEndDate: Date (Month + year)
-+ roleAtWork: String
-+ employmentType: String
-+ technics: List <String>
-+ workDescription: String
-+ workReference: String
-*/
 
 const roleAtWork = ref<string>("");
 
-const workperiodStartDate = ref<string>("");
+const workperiodStartDate = ref<string>("");/*  */
 const workperiodEndDate = ref<string>("");
 const employmentType = ref<string>("");
 const workDescription = ref<string>("");
-const skills = ref<string[]>([]);
+const skillSet = ref<string[]>([]);
 const extraSkill = ref<string>("");
 const category = ref("UNDEFINED");
 
-const possibleLanguages = ref<string[]>([
-  "Assembly Language",
-  "C",
-  "CSS",
-  "C#",
-  "C++",
-  "Dart",
-  "Fortran",
-  "Go",
-  "Groovy",
-  "Java",
-  "JavaScript",
-  "Kotlin",
-  "Lisp",
-  "Lua",
-  "MATLAB",
-  "Perl",
-  "PHP",
-  "Python",
-  "R",
-  "Ruby",
-  "Rust",
-  "Scala",
-  "Scheme",
-  "Shell Scripting",
-]);
 
-const possibleFrames = ref<string[]>([
-  "Angular",
-  "ASP.NET",
-  "ASP.NET Core",
-  "Backbone.js",
-  "Django",
-  "Express.js",
-  "Flask",
-  "Laravel",
-  "Node.js",
-  "React",
-  "Ruby on Rails",
-  "Spring Framework",
-  "Symfony",
-  "Vue.js",
-]);
-const possibleTools = ref<string[]>([
-  "Android Studio",
-  "Blender",
-  "Eclipse",
-  "Git",
-  "GitHub",
-  "IntelliJ IDEA",
-  "JIRA",
-  "Maven",
-  "NetBeans",
-  "Subversion",
-  "Visual Studio",
-  "Visual Studio Code",
-]);
-const possibleMethodologies = ref<string[]>([
-  "Agile",
-  "Continuous Integration (CI)",
-  "Domain-Driven Design (DDD)",
-  "Extreme Programming (XP)",
-  "Rational Unified Process (RUP)",
-  "Scrum",
-  "Test-Driven Development (TDD)",
-  "Unified Modeling Language (UML)",
-]);
 
-const addSkill = () => {
+/* function getSkills(details: string[]) {
+  skillSet.value = details;
+  console.log("skills", skillSet.value);
+} */
+
+const addToSkillSet = () => {
   if (extraSkill.value.trim) {
     const trimmedSkill = extraSkill.value.trim();
 
-    skills.value.push(trimmedSkill);
+    skillSet.value.push(trimmedSkill);
     extraSkill.value = "";
   }
 };
@@ -164,58 +94,11 @@ const addSkill = () => {
 
     <br />
 
-    <p class="font-semibold mr-3">Programmerings språk:</p>
-    <div class="flex flex-wrap mt-2">
-      <div
-        v-for="possibleLanguage in possibleLanguages"
-        :key="possibleLanguage"
-        class="flex"
-      >
-        <Field
-          name="skill"
-          :value="possibleLanguage"
-          type="checkbox"
-          class="mr-2"
-          v-model="skills"
-        />
-        <label class="mr-4"> {{ possibleLanguage }}</label>
-      </div>
-    </div>
-    <p class="font-semibold mr-3 mt-4">Verktyg:</p>
-    <div class="flex flex-wrap mt-2">
-      <div
-        v-for="possibleTool in possibleTools"
-        :key="possibleTool"
-        class="flex"
-      >
-        <Field
-          name="skill"
-          :value="possibleTool"
-          type="checkbox"
-          class="mr-2"
-          v-model="skills"
-        />
-        <label class="mr-4"> {{ possibleTool }}</label>
-      </div>
+    <div v-for="skillUsed in skillSet">
+
+
     </div>
 
-    <p class="font-semibold mr-3 mt-4">Ramverk:</p>
-    <div class="flex flex-wrap my-2">
-      <div
-        v-for="possibleFrame in possibleFrames"
-        :key="possibleFrame"
-        class="flex"
-      >
-        <Field
-          name="skill"
-          :value="possibleFrame"
-          type="checkbox"
-          class="mr-2"
-          v-model="skills"
-        />
-        <label class="mr-4"> {{ possibleFrame }}</label>
-      </div>
-    </div>
 
     <div class="md:grid md:grid-cols-2 md:gap-4">
       <div>
@@ -224,12 +107,12 @@ const addSkill = () => {
           name="extraSkill"
           class="form-input"
           type="text"
-          @keyup.enter="addSkill"
+          @keyup.enter="addToSkillSet"
           v-model="extraSkill"
         />
       </div>
       <div>
-        <label>kategorie</label>
+        <label>Kategorie</label>
         <Field
           as="select"
           name="category"
@@ -247,6 +130,9 @@ const addSkill = () => {
           <option value="SERVER_DATABASE_TECHNOLOGIES">
             Server & Databas technologier
           </option>
+          <option value="OTHER">
+            Annat
+          </option>
         </Field>
       </div>
     </div>
@@ -255,7 +141,7 @@ const addSkill = () => {
     >
       <p class="font-semibold">Angivna skills:</p>
 
-      <p>{{ skills.join(", ") }}</p>
+      <p>{{ skillSet.join(", ") }}</p>
     </div>
   </div>
 </template>
