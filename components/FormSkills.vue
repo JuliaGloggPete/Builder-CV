@@ -4,12 +4,6 @@ import { Field } from "vee-validate";
 import type { ISkill } from "~/types";
 import { useSkillsStore } from "~/stores/skillsStore";
 
-const skillAdd: ISkill = {
-  skill: "",
-  skillCategory: "",
-  proficiency: undefined,
-};
-
 const skillStore = useSkillsStore();
 
 const skills = ref<ISkill[]>([]);
@@ -113,12 +107,6 @@ const possibleMethodologies = ref<ISkill[]>(
   }))
 );
 
-const addSkillFromCB = (skill: string, skillCategory: string) => {
-  const skillToAdd: ISkill = { skill, skillCategory, proficiency: undefined };
-
-  skillStore.addSkill(skillToAdd);
-};
-
 const checkboxChanged = (
   skill: string,
   skillCategory: string,
@@ -196,7 +184,7 @@ const addSkill = (type: string) => {
 <template>
   <div class="form-section">
     <div>
-      <p class="form-head-of-section">Skills</p>
+      <p class="form-head-of-section">Skill</p>
     </div>
 
     <p class="font-semibold mr-3">Programmerings språk:</p>

@@ -5,7 +5,12 @@ export const useSkillsStore = defineStore("skillSet", {
   state: () => ({
     skills: [] as ISkill[],
   }),
-  getters: {},
+  getters: {
+    hasProficiency: (state) => (skillName: string): boolean => {
+      const skill = state.skills.find(s => s.skill.toUpperCase() === skillName.toUpperCase());
+      return !!skill && typeof skill.proficiency !== 'undefined';
+    }
+  },
   actions: {
     addSkill(skill: ISkill) {
       // Check if the skill already exists
