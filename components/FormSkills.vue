@@ -9,12 +9,6 @@ const skillAdd: ISkill = {
   skillCategory: "",
   proficiency: undefined,
 };
-//const emit = defineEmits(["skillsUpdated"]);
-/*const props = defineProps({
- // skillset
-
-
-})*/
 
 const skillStore = useSkillsStore();
 
@@ -122,8 +116,30 @@ const possibleMethodologies = ref<ISkill[]>(
 const addSkillFromCB = (skill: string, skillCategory: string) => {
   const skillToAdd: ISkill = { skill, skillCategory, proficiency: undefined };
 
-  if (!skills.value.some((existingSkill) => existingSkill.skill === skill)) {
-    skillStore.addSkill(skillToAdd);
+  skillStore.addSkill(skillToAdd);
+};
+
+const checkboxChanged = (
+  skill: string,
+  skillCategory: string,
+  checked: boolean
+) => {
+  if (checked) {
+    // Add the skill if checked
+    const skillToAdd = { skill, skillCategory, proficiency: undefined };
+    if (!skills.value.some((existingSkill) => existingSkill.skill === skill)) {
+      skills.value.push(skillToAdd);
+      skillStore.addSkill(skillToAdd);
+    }
+  } else {
+    // Remove the skill if unchecked
+    const indexToRemove = skills.value.findIndex(
+      (existingSkill) => existingSkill.skill === skill
+    );
+    if (indexToRemove !== -1) {
+      const removedSkill = skills.value.splice(indexToRemove, 1)[0];
+      skillStore.deleteSkill(removedSkill);
+    }
   }
 };
 
@@ -195,7 +211,13 @@ const addSkill = (type: string) => {
           :value="possibleLanguage.skill"
           type="checkbox"
           class="mr-2"
-          @change="addSkillFromCB(possibleLanguage.skill, 'language')"
+          @change="
+            checkboxChanged(
+              possibleLanguage.skill,
+              'language',
+              $event.target.checked
+            )
+          "
         />
         <label class="mr-4"> {{ possibleLanguage.skill }}</label>
       </div>
@@ -225,7 +247,9 @@ const addSkill = (type: string) => {
           type="checkbox"
           class="mr-2"
           v-model="skills"
-          @change="addSkillFromCB(possibleTool.skill, 'tool')"
+          @change="
+            checkboxChanged(possibleTool.skill, 'tool', $event.target.checked)
+          "
         />
         <label class="mr-4"> {{ possibleTool.skill }}</label>
       </div>
@@ -255,7 +279,9 @@ const addSkill = (type: string) => {
           type="checkbox"
           class="mr-2"
           v-model="skills"
-          @change="addSkillFromCB(possibleFrame.skill, 'frame')"
+          @change="
+            checkboxChanged(possibleFrame.skill, 'frame', $event.target.checked)
+          "
         />
         <label class="mr-4"> {{ possibleFrame.skill }}</label>
       </div>
@@ -285,7 +311,13 @@ const addSkill = (type: string) => {
           type="checkbox"
           class="mr-2"
           v-model="skills"
-          @change="addSkillFromCB(possibleMethod.skill, 'method')"
+          @change="
+            checkboxChanged(
+              possibleMethod.skill,
+              'method',
+              $event.target.checked
+            )
+          "
         />
         <label class="mr-4"> {{ possibleMethod.skill }}</label>
       </div>
@@ -307,16 +339,13 @@ const addSkill = (type: string) => {
     >
       <p class="font-semibold">Angivna skills:</p>
 
-      <div class="flex flex-row">
-        <span
+      <div class="flex flex-wrap">
+        <p
           v-for="(skill, index) in skillStore.$state.skills"
           :key="skill.skill"
         >
-          {{ skill.skill
-          }}<span v-if="index !== skillStore.$state.skills.length - 1"
-            >,&nbsp;</span
-          >
-        </span>
+          {{ skill.skill }},&nbsp;
+        </p>
       </div>
     </div>
   </div>
