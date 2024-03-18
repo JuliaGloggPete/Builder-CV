@@ -1,0 +1,71 @@
+{
+  "ICV": {
+    "generalInfo": {
+      "firstName": "string",
+      "lastName": "string",
+      "levelOfCompetence": "Number",
+      "jobTitle": "string",
+      "yearsInTheField": "string",
+      "imageUrl": "string",
+      "shortDescriptionPerson": "string"
+    },
+    "technicalSkills": [
+      {
+        "skill": "string",
+        "skillCategory": "string",
+        "proficiency": "Number"
+      }
+    ],
+    "educationInfo": [
+      {
+        "educationStartDate": "string",
+        "educationEndDate": "string",
+        "educationPlace": "string",
+        "educationDescription": "string"
+      }
+    ],
+    "workExpierienceConsid": [
+      {
+        "workperiodStartDate": "string",
+        "workperiodEndDate": "string",
+        "roleAtWork": "string",
+        "employmentType": "string",
+        "technicsUsed": [
+          {
+            "technic": "string"
+          }
+        ],
+        "workDescription": "string"
+      }
+    ],
+    "overAllResume": {
+      "educationShortDescription": "string",
+      "courses": [
+        {
+          "courseStartDate": "string",
+          "courseEndDate": "string",
+          "courseSkill": "string"
+        }
+      ],
+      "furtherWorkExperience": [
+        {
+          "workperiodStartDate": "string",
+          "workperiodEndDate": "string",
+          "roleAtWork": "string",
+          "employmentType": "string",
+          "technicsUsed": [
+            {
+              "skill": "string",
+              "skillCategory": "string",
+              "proficiency": "Number"
+            }
+          ],
+          "workDescription": "string"
+        }
+      ],
+      "languagages": ["string"],
+      "certificates": ["string"]
+    },
+    "language": "string"
+  }
+}

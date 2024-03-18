@@ -1,7 +1,8 @@
 <template>
   <div>
     <header class="shadow-sm">
-      <nav class="container mx-auto p-4 flex bg-considBlue text-white">
+      <div class="container mx-auto p-4 bg-considBlue text-white">
+      <nav class=" flex">
 
         <ul class="flex gap-4">
           <li><NuxtLink to="/">Home</NuxtLink></li>
@@ -10,10 +11,19 @@
    
       
         </ul>
+        
+       
       </nav>
+      <p class="text-center uppercase  text-3xl">We want to work at Consid. </p>
+ 
+      <p class="text-center uppercase font-semibold text-5xl mt-4">You will notice.</p>
+ 
+    </div>
+ 
+     
     </header>
 
-    <div class="container mx-auto p-4 bg-slate-200">
+    <div class="container mx-auto p-4">
       <slot />
     </div>
     <footer>

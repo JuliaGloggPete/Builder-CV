@@ -11,8 +11,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        //"considBlue":  "#70113B",
         "considBlue": "#001a37",
-        "considRed": "#001a37",
+        "considRed": "#70113B",
 
       }
     },
