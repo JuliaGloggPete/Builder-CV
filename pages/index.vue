@@ -1,5 +1,5 @@
 <template>
-  <Form>
+  <Form @submit.prevent>
     <div class="flex">
       <div class="mr-6 mt-4">
         <label>Språket CV-skrivas i</label>

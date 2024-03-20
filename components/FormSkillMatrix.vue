@@ -10,7 +10,6 @@ const matrixSkills = ref<ISkill[]>([]);
 
 const sortedSkills = computed(() => {
   return skillStore.$state.skills.slice().sort((a, b) => {
-    // Sort alphabetically by skill name
     return a.skill.localeCompare(b.skill);
   });
 });

@@ -15,6 +15,7 @@ export interface IGeneralInfo {
   yearsInTheField: string;
   imageUrl?: string;
   shortDescriptionPerson: string;
+
 }
 export interface ISkill {
   skill: string;

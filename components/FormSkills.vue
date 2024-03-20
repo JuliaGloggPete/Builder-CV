@@ -5,7 +5,7 @@ import type { ISkill } from "~/types";
 import { useSkillsStore } from "~/stores/skillsStore";
 
 const skillStore = useSkillsStore();
-
+//TODO jag tror det blev obsolet
 const skills = ref<ISkill[]>([]);
 
 const extraLanguage = ref<string>("");
@@ -280,7 +280,7 @@ const addSkill = (type: string) => {
         name="extraFrame"
         class="form-input"
         type="text"
-        @keyup.enter="addSkill('frame')"
+       
         @keyup.,="addSkill('frame')"
         v-model="extraFrame"
       />
