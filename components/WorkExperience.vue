@@ -1,5 +1,16 @@
+
+<script setup lang="ts">
+import type { IWorkExperience, ISkill } from '~/types';
+import { useWorkexperienceStore } from '~/stores/workExpierienceStore';
+
+const hej = "Hej"
+
+const {workExpierience} = defineProps(['workExpierience'])
+</script>
+
+
 <template>
-  <div class="form-section">
+  <div class="border-2 bg-white border-considRed">
   
     Roll: {{ hej }}
 
@@ -8,12 +19,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-
-const hej = "Hej"
-
-const {workExpierience} = defineProps(['workExpierience'])
-</script>
 
 <style scoped>
 
